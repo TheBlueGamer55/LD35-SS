@@ -21,6 +21,8 @@ public class Gameplay implements GameScreen{
 	public boolean gameOver = false;
 	
 	public RubberBand virtualWindow;
+	public PortalSystem portalSys;
+	public Portal p1, p2, p3;
 
 	@Override
 	public int getId(){
@@ -49,6 +51,12 @@ public class Gameplay implements GameScreen{
 		paused = false;
 		
 		virtualWindow = new RubberBand(0, 0, this);
+		
+		portalSys = new PortalSystem(this);
+		p1 = new Portal(0, 0, this);
+		p2 = new Portal(100, 100, this);
+		portalSys.addPortal(p1);
+		portalSys.addPortal(p2);
 
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -66,6 +74,7 @@ public class Gameplay implements GameScreen{
 		g.drawString("This is the gameplay screen", 20, 24);
 		
 		virtualWindow.render(g);
+		portalSys.render(g);
 
 		if(gameOver){
 			g.setColor(Color.RED);
@@ -81,6 +90,7 @@ public class Gameplay implements GameScreen{
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta){
 		if(!paused && !gameOver){
 			virtualWindow.update(delta);
+			portalSys.update(delta);
 			
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 				paused = true;
