@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.vSyncEnabled = true;
 		config.width = 640;
 		config.height = 480;
-		config.resizable = true; 
+		config.resizable = false; 
 		config.foregroundFPS = 30;
 		config.backgroundFPS = 30;
 		config.title = "TO BE NAMED LATER";

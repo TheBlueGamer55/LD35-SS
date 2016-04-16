@@ -10,15 +10,18 @@ import org.mini2Dx.core.screen.transition.FadeOutTransition;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 
 public class Gameplay implements GameScreen{
-	
+
 	public static int ID = 2;
-	
+
 	public boolean paused = false;
 	public boolean gameOver = false;
 	
+	public RubberBand virtualWindow;
+
 	@Override
 	public int getId(){
 		return ID;
@@ -26,12 +29,12 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void initialise(GameContainer gc){
-		
+
 	}
 
 	@Override
 	public void postTransitionIn(Transition t){
-		
+
 	}
 
 	@Override
@@ -44,17 +47,26 @@ public class Gameplay implements GameScreen{
 	public void preTransitionIn(Transition t){
 		gameOver = false;
 		paused = false;
+		
+		virtualWindow = new RubberBand(0, 0, this);
+
+		//Input handling
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(virtualWindow);
+		Gdx.input.setInputProcessor(multiplexer);
 	}
 
 	@Override
 	public void preTransitionOut(Transition t){
-		
+
 	}
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
 		g.drawString("This is the gameplay screen", 20, 24);
 		
+		virtualWindow.render(g);
+
 		if(gameOver){
 			g.setColor(Color.RED);
 			g.drawString("You died! Press Escape to go back to the main menu", 160, 240);
@@ -68,6 +80,8 @@ public class Gameplay implements GameScreen{
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta){
 		if(!paused && !gameOver){
+			virtualWindow.update(delta);
+			
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 				paused = true;
 			}
@@ -88,11 +102,11 @@ public class Gameplay implements GameScreen{
 			}
 		}
 	}
-	
+
 	@Override
 	public void interpolate(GameContainer gc, float delta){
 	}
-	
+
 	@Override
 	public void onPause() {
 	}
