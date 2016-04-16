@@ -8,6 +8,12 @@ public class Portal {
 	public static final int PORTAL_HEIGHT = 32;
 	
 	public static float linkOpacity = 1;
+	public static Color linkColor = new Color(Color.GREEN);
+	public static final float PERIOD = 5;//5 second cycle of opacity
+	public static float cyclePoint = 0;
+	
+	public boolean drawing = false;//Whether or not this member of the pair
+								   //is drawing link lines
 	
 	public Rectangle hitbox;
 	
@@ -31,7 +37,7 @@ public class Portal {
 		
 		this.level = level;
 		
-		this.active = false;
+		this.active = true;
 		
 		this.hitbox = new Rectangle(xPos, yPos, PORTAL_WIDTH, PORTAL_HEIGHT);
 		
@@ -43,9 +49,23 @@ public class Portal {
 		g.setColor(color);
 		g.drawRect(xPos, yPos, PORTAL_WIDTH, PORTAL_HEIGHT);
 		
+		if(link!=null){
+			
+			g.setColor(linkColor);
+
+			g.drawLineSegment(this.hitbox.x+this.hitbox.width/2, 
+						  this.hitbox.y+this.hitbox.height/2,
+						  link.hitbox.y+link.hitbox.height/2,
+						  link.hitbox.y+link.hitbox.height/2);
+		}
 	}
 	
 	public void update(float delta){
+		cyclePoint += delta;
+		cyclePoint %= PERIOD;
+		linkColor.a = (float) Math.pow( Math.sin(cyclePoint*2.0*Math.PI/PERIOD)
+							, 2.0 );
+		
 		if(active==false){
 			if(link!=null){
 				link.link=null;

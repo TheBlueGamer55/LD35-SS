@@ -29,6 +29,12 @@ public class PortalSystem {
 					System.out.println("LINKED");
 					waiting.setLink(p);
 					p.setLink(waiting);
+					
+					//Don't think this code matters anymore
+					waiting.drawing = true;//This way only one of them draws
+					p.drawing = false;
+					
+					
 					waiting = null;
 				}
 			}
