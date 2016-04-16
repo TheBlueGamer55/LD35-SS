@@ -7,16 +7,23 @@ import org.mini2Dx.core.graphics.Graphics;
 import com.badlogic.gdx.InputProcessor;
 
 public class RubberBand implements InputProcessor{
+	
+	public static int COUNT = 0;
+	public int ID;
 
-	public final int INITIAL_WIDTH = 300;
-	public final int INITIAL_HEIGHT = 200;
-	public final int MIN_WIDTH = 32;
-	public final int MIN_HEIGHT = 32;
+	public final int INITIAL_WIDTH = 256;
+	public final int INITIAL_HEIGHT = 128;
+	public final int MIN_WIDTH = 40;
+	public final int MIN_HEIGHT = 40;
+	public final int TILE_SIZE = 1; //TODO figure out appropriate class to place this in
 
 	public float x, y;
 
 	public boolean isActive;
 	public boolean isResizing;
+	public boolean containsPlayer;
+
+	public Player containedPlayer;
 
 	public Rectangle hitbox, tempBox;
 	public Circle topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner, currentCorner;
@@ -29,6 +36,8 @@ public class RubberBand implements InputProcessor{
 		this.y = y;
 		isActive = true;
 		isResizing = false;
+		containsPlayer = false;
+		containedPlayer = null;
 		this.level = level;
 		type = "RubberBand";
 
@@ -41,6 +50,10 @@ public class RubberBand implements InputProcessor{
 
 		hitbox = new Rectangle(x, y, INITIAL_WIDTH, INITIAL_HEIGHT);
 		tempBox = new Rectangle(x, y, INITIAL_WIDTH, INITIAL_HEIGHT);
+		
+		//TODO remove later
+		COUNT++;
+		ID = COUNT;
 	}
 
 	public void render(Graphics g){
@@ -53,9 +66,17 @@ public class RubberBand implements InputProcessor{
 
 	public void update(float delta){
 		if(isActive){
+			if(containedPlayer != null){
+				System.out.println("Window " + ID + " has player");
+				checkPlayerCollision();
+			}
 			hitbox.setX(x);
 			hitbox.setY(y);
 		}
+	}
+
+	public void checkPlayerCollision(){
+		containsPlayer = tempBox.contains(level.player.hitbox);
 	}
 
 	//TODO switch to sprites for corners later
@@ -65,7 +86,7 @@ public class RubberBand implements InputProcessor{
 		g.drawCircle(bottomLeftCorner.getX(), bottomLeftCorner.getY(), (int) bottomLeftCorner.getRadius());
 		g.drawCircle(bottomRightCorner.getX(), bottomRightCorner.getY(), (int) bottomRightCorner.getRadius());
 	}
-	
+
 	private void realignCorners(){
 		topLeftCorner.setCenter(tempBox.x, tempBox.y);
 		topRightCorner.setCenter(tempBox.x + tempBox.width, tempBox.y);
@@ -119,6 +140,10 @@ public class RubberBand implements InputProcessor{
 
 	@Override
 	public boolean touchDragged(int mouseX, int mouseY, int pointer){
+		//TODO testing discrete steps remove later
+		mouseX = (mouseX / TILE_SIZE) * TILE_SIZE;
+		mouseY = (mouseY / TILE_SIZE) * TILE_SIZE;
+		Rectangle prevBox = new Rectangle(tempBox.x, tempBox.y, tempBox.width, tempBox.height);
 		if(isResizing){
 			if(currentCorner == topLeftCorner){
 				topLeftCorner.setCenter(mouseX, mouseY);
@@ -180,6 +205,13 @@ public class RubberBand implements InputProcessor{
 				}
 			}
 			realignCorners();
+			if(containedPlayer != null){
+				checkPlayerCollision();
+				if(!containsPlayer){
+					tempBox.set(prevBox.x, prevBox.y, prevBox.width, prevBox.height);
+					realignCorners();
+				}
+			}
 		}
 		return false;
 	}

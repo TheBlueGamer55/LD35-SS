@@ -41,7 +41,7 @@ public class Player implements InputProcessor{
 		velY = 0;
 		isActive = false;
 		this.level = level;
-		type = "ControllableMob";
+		type = "Player";
 		//TODO adjust hitbox based on sprite
 		hitbox = new Rectangle(x, y, 20, 20); 
 	}
@@ -69,6 +69,10 @@ public class Player implements InputProcessor{
 
 	public void checkPortalCollision(){
 		//TODO implement
+		//If player has touched portal
+		//If linked portal exists
+		//send player to linked portal
+		//level.attachPlayerToWindow();
 	}
 
 	public void playerMovement(){

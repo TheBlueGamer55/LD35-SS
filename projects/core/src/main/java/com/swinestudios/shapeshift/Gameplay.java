@@ -24,7 +24,9 @@ public class Gameplay implements GameScreen{
 
 	public ArrayList<Block> solids;
 
+	public ArrayList<RubberBand> windows;
 	public RubberBand virtualWindow;
+	public RubberBand virtualWindow2;
 	public Player player;
 
 	@Override
@@ -54,8 +56,13 @@ public class Gameplay implements GameScreen{
 		paused = false;
 
 		virtualWindow = new RubberBand(0, 0, this);
+		virtualWindow2 = new RubberBand(320, 0, this);
 		solids = new ArrayList<Block>();
+		windows = new ArrayList<RubberBand>();
+		windows.add(virtualWindow);
+		windows.add(virtualWindow2);
 		player = new Player(virtualWindow.x + 16, virtualWindow.y + 16, this);
+		attachPlayerToWindow();
 
 		//TODO test remove later
 		solids.add(new Block(330, 330, 21, 49, this));
@@ -64,6 +71,7 @@ public class Gameplay implements GameScreen{
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(virtualWindow);
+		multiplexer.addProcessor(virtualWindow2);
 		multiplexer.addProcessor(player);
 		Gdx.input.setInputProcessor(multiplexer);
 	}
@@ -78,7 +86,7 @@ public class Gameplay implements GameScreen{
 		g.drawString("This is the gameplay screen", 20, 24);
 
 		player.render(g);
-		virtualWindow.render(g);
+		renderWindows(g);
 
 		for(int i = 0; i < solids.size(); i++){
 			solids.get(i).render(g);
@@ -98,7 +106,14 @@ public class Gameplay implements GameScreen{
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta){
 		if(!paused && !gameOver){
 			player.update(delta);
-			virtualWindow.update(delta);
+			updateWindows(delta);
+			
+			//TODO Test teleportation, remove later
+			if(Gdx.input.isKeyJustPressed(Keys.T)){
+				player.x = Gdx.input.getX();
+				player.y = Gdx.input.getY();
+				attachPlayerToWindow();
+			}
 
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 				paused = true;
@@ -118,6 +133,39 @@ public class Gameplay implements GameScreen{
 					paused = false;
 				}
 			}
+		}
+	}
+	
+	/*
+	 * Searches for the window that the player is contained in.
+	 * precondition - windows cannot overlap, player cannot move outside of its current window
+	 * postcondition - only one window will contain a reference to the player
+	 */
+	public void attachPlayerToWindow(){
+		for(int i = 0; i < windows.size(); i++){
+			RubberBand window = windows.get(i);
+			//If window contains player, set the variables that indicate so
+			if(window.tempBox.contains(player.x, player.y)){
+				window.containedPlayer = player;
+				window.containsPlayer = true;
+			}
+			//Any other windows will not have the player, so set the variables to indicate so
+			else{
+				window.containedPlayer = null;
+				window.containsPlayer = false;
+			}
+		}
+	}
+	
+	public void renderWindows(Graphics g){
+		for(int i = 0; i < windows.size(); i++){
+			windows.get(i).render(g);
+		}
+	}
+	
+	public void updateWindows(float delta){
+		for(int i = 0; i < windows.size(); i++){
+			windows.get(i).update(delta);
 		}
 	}
 
