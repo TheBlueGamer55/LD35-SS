@@ -1,5 +1,7 @@
 package com.swinestudios.shapeshift;
 
+import java.util.ArrayList;
+
 import org.mini2Dx.core.game.GameContainer;
 import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.screen.GameScreen;
@@ -19,8 +21,11 @@ public class Gameplay implements GameScreen{
 
 	public boolean paused = false;
 	public boolean gameOver = false;
-	
+
+	public ArrayList<Block> solids;
+
 	public RubberBand virtualWindow;
+	public Player player;
 
 	@Override
 	public int getId(){
@@ -47,12 +52,19 @@ public class Gameplay implements GameScreen{
 	public void preTransitionIn(Transition t){
 		gameOver = false;
 		paused = false;
-		
+
 		virtualWindow = new RubberBand(0, 0, this);
+		solids = new ArrayList<Block>();
+		player = new Player(virtualWindow.x + 16, virtualWindow.y + 16, this);
+
+		//TODO test remove later
+		solids.add(new Block(330, 330, 21, 49, this));
+		solids.add(new Block(330, 330, 49, 21, this));
 
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(virtualWindow);
+		multiplexer.addProcessor(player);
 		Gdx.input.setInputProcessor(multiplexer);
 	}
 
@@ -64,8 +76,13 @@ public class Gameplay implements GameScreen{
 	@Override
 	public void render(GameContainer gc, Graphics g){
 		g.drawString("This is the gameplay screen", 20, 24);
-		
+
+		player.render(g);
 		virtualWindow.render(g);
+
+		for(int i = 0; i < solids.size(); i++){
+			solids.get(i).render(g);
+		}
 
 		if(gameOver){
 			g.setColor(Color.RED);
@@ -80,8 +97,9 @@ public class Gameplay implements GameScreen{
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta){
 		if(!paused && !gameOver){
+			player.update(delta);
 			virtualWindow.update(delta);
-			
+
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 				paused = true;
 			}
