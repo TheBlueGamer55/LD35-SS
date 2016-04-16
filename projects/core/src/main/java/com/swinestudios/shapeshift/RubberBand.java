@@ -22,6 +22,7 @@ public class RubberBand implements InputProcessor{
 	public boolean isActive;
 	public boolean isResizing;
 	public boolean containsPlayer;
+	public boolean containsBoundingBlock; //Used to make sure window cannot resize past bounding blocks
 
 	public Player containedPlayer;
 
@@ -38,6 +39,7 @@ public class RubberBand implements InputProcessor{
 		isResizing = false;
 		containsPlayer = false;
 		containedPlayer = null;
+		containsBoundingBlock = false;
 		this.level = level;
 		type = "RubberBand";
 
@@ -67,7 +69,7 @@ public class RubberBand implements InputProcessor{
 	public void update(float delta){
 		if(isActive){
 			if(containedPlayer != null){
-				System.out.println("Window " + ID + " has player");
+				//System.out.println("Window " + ID + " has player");
 				checkPlayerCollision();
 			}
 			hitbox.setX(x);
@@ -77,6 +79,16 @@ public class RubberBand implements InputProcessor{
 
 	public void checkPlayerCollision(){
 		containsPlayer = tempBox.contains(level.player.hitbox);
+	}
+	
+	public void checkBoundsCollision(){
+		for(int i = 0; i < level.boundingSolids.size(); i++){
+			BoundingBlock block = level.boundingSolids.get(i);
+			if(isColliding(tempBox, block)){
+				containsBoundingBlock = true;
+				break;
+			}
+		}
 	}
 
 	//TODO switch to sprites for corners later
@@ -92,6 +104,19 @@ public class RubberBand implements InputProcessor{
 		topRightCorner.setCenter(tempBox.x + tempBox.width, tempBox.y);
 		bottomLeftCorner.setCenter(tempBox.x, tempBox.y + tempBox.height);
 		bottomRightCorner.setCenter(tempBox.x + tempBox.width, tempBox.y + tempBox.height);
+	}
+	
+	/*
+	 * Checks if there is a collision with another Rectangle
+	 */
+	public boolean isColliding(Rectangle r1, Rectangle r2){
+		if(r1 == r2){ //Make sure solid isn't stuck on itself
+			return false;
+		}
+		if(r1.x < r2.x + r2.width && r1.x + r1.width > r2.x && r1.y < r2.y + r2.height && r1.y + r1.height > r2.y){
+			return true;
+		}
+		return false;
 	}
 
 	//========================================Input Methods==============================================
@@ -140,7 +165,7 @@ public class RubberBand implements InputProcessor{
 
 	@Override
 	public boolean touchDragged(int mouseX, int mouseY, int pointer){
-		//TODO testing discrete steps remove later
+		//TODO bug - resizing can occur even if game is paused
 		mouseX = (mouseX / TILE_SIZE) * TILE_SIZE;
 		mouseY = (mouseY / TILE_SIZE) * TILE_SIZE;
 		Rectangle prevBox = new Rectangle(tempBox.x, tempBox.y, tempBox.width, tempBox.height);
@@ -211,6 +236,12 @@ public class RubberBand implements InputProcessor{
 					tempBox.set(prevBox.x, prevBox.y, prevBox.width, prevBox.height);
 					realignCorners();
 				}
+			}
+			checkBoundsCollision();
+			if(containsBoundingBlock){
+				tempBox.set(prevBox.x, prevBox.y, prevBox.width, prevBox.height);
+				realignCorners();
+				containsBoundingBlock = false;
 			}
 		}
 		return false;

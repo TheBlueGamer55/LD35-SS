@@ -23,6 +23,7 @@ public class Gameplay implements GameScreen{
 	public boolean gameOver = false;
 
 	public ArrayList<Block> solids;
+	public ArrayList<BoundingBlock> boundingSolids;
 
 	public ArrayList<RubberBand> windows;
 	public RubberBand virtualWindow;
@@ -58,6 +59,7 @@ public class Gameplay implements GameScreen{
 		virtualWindow = new RubberBand(0, 0, this);
 		virtualWindow2 = new RubberBand(320, 0, this);
 		solids = new ArrayList<Block>();
+		boundingSolids = new ArrayList<BoundingBlock>();
 		windows = new ArrayList<RubberBand>();
 		windows.add(virtualWindow);
 		windows.add(virtualWindow2);
@@ -67,6 +69,7 @@ public class Gameplay implements GameScreen{
 		//TODO test remove later
 		solids.add(new Block(330, 330, 21, 49, this));
 		solids.add(new Block(330, 330, 49, 21, this));
+		boundingSolids.add(new BoundingBlock(320, 240, 32, 32, this));
 
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -88,8 +91,12 @@ public class Gameplay implements GameScreen{
 		player.render(g);
 		renderWindows(g);
 
+		//TODO remove solids rendering later
 		for(int i = 0; i < solids.size(); i++){
 			solids.get(i).render(g);
+		}
+		for(int i = 0; i < boundingSolids.size(); i++){
+			boundingSolids.get(i).render(g);
 		}
 
 		if(gameOver){
