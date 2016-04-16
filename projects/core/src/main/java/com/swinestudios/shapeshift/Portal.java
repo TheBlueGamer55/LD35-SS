@@ -48,6 +48,8 @@ public class Portal {
 	public void render(Graphics g){
 		g.setColor(color);
 		g.drawRect(xPos, yPos, PORTAL_WIDTH, PORTAL_HEIGHT);
+		//TODO debug message
+		g.drawString(active ? "Active" : "Inactive", xPos, yPos);
 		
 		if(link!=null){
 			

@@ -55,8 +55,10 @@ public class Gameplay implements GameScreen{
 		portalSys = new PortalSystem(this);
 		p1 = new Portal(0, 0, this);
 		p2 = new Portal(100, 100, this);
+		p3 = new Portal(300, 0, this);
 		portalSys.addPortal(p1);
 		portalSys.addPortal(p2);
+		portalSys.addPortal(p3);
 
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -71,7 +73,7 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
-		g.drawString("This is the gameplay screen", 20, 24);
+		//g.drawString("This is the gameplay screen", 20, 24);
 		
 		virtualWindow.render(g);
 		portalSys.render(g);
@@ -91,6 +93,24 @@ public class Gameplay implements GameScreen{
 		if(!paused && !gameOver){
 			virtualWindow.update(delta);
 			portalSys.update(delta);
+			
+			//TODO testing portal system
+			if(Gdx.input.isKeyJustPressed(Keys.Q)){ //Activate a portal
+				for(int i = 0; i < portalSys.portals.size(); i++){
+					Portal port = portalSys.portals.get(i);
+					if(port.hitbox.contains(Gdx.input.getX(), Gdx.input.getY())){
+						port.activate();
+					}
+				}
+			}
+			if(Gdx.input.isKeyJustPressed(Keys.E)){ //Deactivate a portal
+				for(int i = 0; i < portalSys.portals.size(); i++){
+					Portal port = portalSys.portals.get(i);
+					if(port.hitbox.contains(Gdx.input.getX(), Gdx.input.getY())){
+						port.setActive(false);
+					}
+				}
+			}
 			
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 				paused = true;
