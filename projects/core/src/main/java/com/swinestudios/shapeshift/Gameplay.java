@@ -22,7 +22,7 @@ public class Gameplay implements GameScreen{
 	
 	public RubberBand virtualWindow;
 	public PortalSystem portalSys;
-	public Portal p1, p2, p3;
+	public Portal p1, p2, p3, p4;
 
 	@Override
 	public int getId(){
@@ -56,9 +56,11 @@ public class Gameplay implements GameScreen{
 		p1 = new Portal(0, 0, this);
 		p2 = new Portal(100, 100, this);
 		p3 = new Portal(300, 0, this);
+		p4 = new Portal(400, 200, this);
 		portalSys.addPortal(p1);
 		portalSys.addPortal(p2);
 		portalSys.addPortal(p3);
+		portalSys.addPortal(p4);
 
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();

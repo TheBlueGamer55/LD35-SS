@@ -57,7 +57,7 @@ public class Portal {
 
 			g.drawLineSegment(this.hitbox.x+this.hitbox.width/2, 
 						  this.hitbox.y+this.hitbox.height/2,
-						  link.hitbox.y+link.hitbox.height/2,
+						  link.hitbox.x+link.hitbox.height/2,
 						  link.hitbox.y+link.hitbox.height/2);
 		}
 	}
@@ -68,7 +68,8 @@ public class Portal {
 		linkColor.a = (float) Math.pow( Math.sin(cyclePoint*2.0*Math.PI/PERIOD)
 							, 2.0 );
 		
-		if(active==false){
+
+		if( link != null && link.active==false){
 			if(link!=null){
 				link.link=null;
 				link=null;

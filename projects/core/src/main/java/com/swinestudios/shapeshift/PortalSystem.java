@@ -20,6 +20,9 @@ public class PortalSystem {
 		waiting = null;
 		for(Portal p : portals){
 			p.update(delta);
+		}
+		for(Portal p : portals){
+			
 			
 			if(p.isActive() && p.getLink()==null){
 				if(waiting==null){
@@ -33,7 +36,6 @@ public class PortalSystem {
 					//Don't think this code matters anymore
 					waiting.drawing = true;//This way only one of them draws
 					p.drawing = false;
-					
 					
 					waiting = null;
 				}
