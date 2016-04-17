@@ -11,6 +11,7 @@ public class RubberBand implements InputProcessor{
 	public static int COUNT = 0;
 	public int ID;
 
+	//TODO adjust later
 	public final int INITIAL_WIDTH = 256;
 	public final int INITIAL_HEIGHT = 128;
 	public final int MIN_WIDTH = 40;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="test_tileset" tilewidth="16" tileheight="16">
+  <image source="test_tileset.png" width="192" height="192"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1DEKACEMRNHcaUXLFff+dzKNXVIIgn9himGw00diNbPmqdAeng/ct33kJ7/s/o+nBE3xez09aJpfdqb4ZWeKn+bvzPzR/r8bXvI728so2lPC/i6jbvm+UveXMI8775Gf/OQnP/nJ7y9+E0R1Gpw=
+  </data>
+ </layer>
+ <objectgroup name="Solids" width="40" height="30">
+  <object x="0" y="256" width="208" height="32"/>
+  <object x="176" y="288" width="32" height="192"/>
+  <object x="112" y="96" width="32" height="160"/>
+  <object x="144" y="96" width="64" height="32"/>
+  <object x="176" y="128" width="32" height="64"/>
+  <object x="144" y="160" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="BoundingSolids" width="40" height="30">
+  <object x="224" y="208" width="32" height="32"/>
+  <object x="272" y="208" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Portals" width="40" height="30">
+  <object x="64" y="304" width="16" height="16"/>
+  <object x="48" y="160" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Goal" width="40" height="30">
+  <object x="559" y="31" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Windows" width="40" height="30">
+  <object x="16" y="368" width="16" height="16"/>
+  <object x="320" y="288" width="16" height="16"/>
+ </objectgroup>
+</map>
