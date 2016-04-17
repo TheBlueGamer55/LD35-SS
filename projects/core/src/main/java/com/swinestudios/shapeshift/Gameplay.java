@@ -29,6 +29,8 @@ public class Gameplay implements GameScreen{
 	public RubberBand virtualWindow;
 	public RubberBand virtualWindow2;
 	public Player player;
+	public PortalSystem portalSys;
+	public Portal p1, p2, p3, p4;
 
 	@Override
 	public int getId(){
@@ -72,6 +74,16 @@ public class Gameplay implements GameScreen{
 		solids.add(new Block(330, 330, 21, 49, this));
 		solids.add(new Block(330, 330, 49, 21, this));
 		boundingSolids.add(new BoundingBlock(320, 240, 32, 32, this));
+		
+		portalSys = new PortalSystem(this);
+		p1 = new Portal(0, 0, this);
+		p2 = new Portal(100, 100, this);
+		p3 = new Portal(300, 0, this);
+		p4 = new Portal(400, 200, this);
+		portalSys.addPortal(p1);
+		portalSys.addPortal(p2);
+		portalSys.addPortal(p3);
+		portalSys.addPortal(p4);
 
 		//Input handling
 		InputMultiplexer multiplexer = new InputMultiplexer();
@@ -88,9 +100,10 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
-		g.drawString("This is the gameplay screen", 20, 24);
+		//g.drawString("This is the gameplay screen", 20, 24);
 
 		player.render(g);
+		portalSys.render(g);
 		renderWindows(g);
 
 		//TODO remove solids rendering later
@@ -116,12 +129,30 @@ public class Gameplay implements GameScreen{
 		if(!paused && !gameOver){
 			player.update(delta);
 			updateWindows(delta);
+			portalSys.update(delta);
 			
 			//TODO Test teleportation, remove later
 			if(Gdx.input.isKeyJustPressed(Keys.T)){
 				player.x = Gdx.input.getX();
 				player.y = Gdx.input.getY();
 				attachPlayerToWindow();
+			}
+			//TODO testing portal system
+			if(Gdx.input.isKeyJustPressed(Keys.Q)){ //Activate a portal
+				for(int i = 0; i < portalSys.portals.size(); i++){
+					Portal port = portalSys.portals.get(i);
+					if(port.hitbox.contains(Gdx.input.getX(), Gdx.input.getY())){
+						port.activate();
+					}
+				}
+			}
+			if(Gdx.input.isKeyJustPressed(Keys.E)){ //Deactivate a portal
+				for(int i = 0; i < portalSys.portals.size(); i++){
+					Portal port = portalSys.portals.get(i);
+					if(port.hitbox.contains(Gdx.input.getX(), Gdx.input.getY())){
+						port.setActive(false);
+					}
+				}
 			}
 
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
