@@ -16,6 +16,7 @@ public class RubberBand implements InputProcessor{
 	public final int MIN_WIDTH = 40;
 	public final int MIN_HEIGHT = 40;
 	public final int TILE_SIZE = 1; //TODO figure out appropriate class to place this in
+	public final int BORDER_OFFSET = 16;
 
 	public float x, y;
 
@@ -27,6 +28,7 @@ public class RubberBand implements InputProcessor{
 	public Player containedPlayer;
 
 	public Rectangle hitbox, tempBox;
+	public Block topBorder, bottomBorder, leftBorder, rightBorder;
 	public Circle topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner, currentCorner;
 
 	public Gameplay level;
@@ -53,6 +55,15 @@ public class RubberBand implements InputProcessor{
 		hitbox = new Rectangle(x, y, INITIAL_WIDTH, INITIAL_HEIGHT);
 		tempBox = new Rectangle(x, y, INITIAL_WIDTH, INITIAL_HEIGHT);
 		
+		topBorder = new Block(x, y - BORDER_OFFSET, INITIAL_WIDTH, BORDER_OFFSET, level);
+		bottomBorder = new Block(x, y + INITIAL_HEIGHT, INITIAL_WIDTH, BORDER_OFFSET, level);
+		leftBorder = new Block(x - BORDER_OFFSET, y, BORDER_OFFSET, INITIAL_HEIGHT, level);
+		rightBorder = new Block(x + INITIAL_WIDTH, y, BORDER_OFFSET, INITIAL_HEIGHT, level);
+		level.solids.add(topBorder);
+		level.solids.add(bottomBorder);
+		level.solids.add(leftBorder);
+		level.solids.add(rightBorder);
+		
 		//TODO remove later
 		COUNT++;
 		ID = COUNT;
@@ -61,6 +72,8 @@ public class RubberBand implements InputProcessor{
 	public void render(Graphics g){
 		if(isActive){
 			//g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
+			//TODO debug border drawing, remove later
+			drawBorders(g);
 			g.drawRect(tempBox.x, tempBox.y, tempBox.width, tempBox.height);
 			drawCorners(g);
 		}
@@ -89,6 +102,22 @@ public class RubberBand implements InputProcessor{
 				break;
 			}
 		}
+	}
+	
+	private void drawBorders(Graphics g){
+		g.drawRect(topBorder.x, topBorder.y, topBorder.width, topBorder.height);
+		g.drawRect(bottomBorder.x, bottomBorder.y, bottomBorder.width, bottomBorder.height);
+		g.drawRect(leftBorder.x, leftBorder.y, leftBorder.width, leftBorder.height);
+		g.drawRect(rightBorder.x, rightBorder.y, rightBorder.width, rightBorder.height);
+	}
+	
+	private void realignBorders(){
+		float x = tempBox.x;
+		float y = tempBox.y;
+		topBorder.set(x, y - BORDER_OFFSET, tempBox.width, BORDER_OFFSET);
+		bottomBorder.set(x, y + tempBox.height, tempBox.width, BORDER_OFFSET);
+		leftBorder.set(x - BORDER_OFFSET, y, BORDER_OFFSET, tempBox.height);
+		rightBorder.set(x + tempBox.width, y, BORDER_OFFSET, tempBox.height);
 	}
 
 	//TODO switch to sprites for corners later
@@ -230,17 +259,20 @@ public class RubberBand implements InputProcessor{
 				}
 			}
 			realignCorners();
+			realignBorders();
 			if(containedPlayer != null){
 				checkPlayerCollision();
 				if(!containsPlayer){
 					tempBox.set(prevBox.x, prevBox.y, prevBox.width, prevBox.height);
 					realignCorners();
+					realignBorders();
 				}
 			}
 			checkBoundsCollision();
 			if(containsBoundingBlock){
 				tempBox.set(prevBox.x, prevBox.y, prevBox.width, prevBox.height);
 				realignCorners();
+				realignBorders();
 				containsBoundingBlock = false;
 			}
 		}

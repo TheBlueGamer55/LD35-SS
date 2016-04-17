@@ -56,11 +56,13 @@ public class Gameplay implements GameScreen{
 		gameOver = false;
 		paused = false;
 
+		solids = new ArrayList<Block>();
+		windows = new ArrayList<RubberBand>();
+		boundingSolids = new ArrayList<BoundingBlock>();
+		
 		virtualWindow = new RubberBand(0, 0, this);
 		virtualWindow2 = new RubberBand(320, 0, this);
-		solids = new ArrayList<Block>();
-		boundingSolids = new ArrayList<BoundingBlock>();
-		windows = new ArrayList<RubberBand>();
+		
 		windows.add(virtualWindow);
 		windows.add(virtualWindow2);
 		player = new Player(virtualWindow.x + 16, virtualWindow.y + 16, this);
