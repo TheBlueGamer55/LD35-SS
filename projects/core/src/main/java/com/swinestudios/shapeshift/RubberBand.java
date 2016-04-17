@@ -12,8 +12,8 @@ public class RubberBand implements InputProcessor{
 	public int ID;
 
 	//TODO adjust later
-	public final int INITIAL_WIDTH = 256;
-	public final int INITIAL_HEIGHT = 128;
+	public final int INITIAL_WIDTH = 96;
+	public final int INITIAL_HEIGHT = 96;
 	public final int MIN_WIDTH = 40;
 	public final int MIN_HEIGHT = 40;
 	public final int TILE_SIZE = 1; //TODO figure out appropriate class to place this in

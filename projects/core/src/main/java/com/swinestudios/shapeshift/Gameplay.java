@@ -38,7 +38,8 @@ public class Gameplay implements GameScreen{
 	//public RubberBand virtualWindow2;
 	//public Portal p1, p2, p3, p4;
 	
-	private TiledMap map0;
+	private TiledMap map0, map1, currentMap;
+	public static int levelNum = 1; //Keep track of current level
 	
 	private InputMultiplexer multiplexer;
 
@@ -56,6 +57,7 @@ public class Gameplay implements GameScreen{
 		
 		try{
 			map0 = new TiledMap(Gdx.files.internal("test_map0.tmx"));
+			map1 = new TiledMap(Gdx.files.internal("test_map1.tmx"));
 		} catch (TiledException e) {
 			e.printStackTrace();
 		}
@@ -72,25 +74,21 @@ public class Gameplay implements GameScreen{
 		paused = false;
 		
 		//TODO adjust resetting as necessary
-		solids.clear();
-		windows.clear();
-		boundingSolids.clear();
-		portalSys.portals.clear();
+		resetObjects();
+		levelNum = 1;
 	}
 
 	@Override
 	public void preTransitionIn(Transition t){
 		gameOver = false;
 		paused = false;
+		currentMap = map0; //First level
 		portalSys = new PortalSystem(this);
 		goal = new GoalBlock(-20, -20, this);
+		player = new Player(16, 480 - 40, this);
 		
-		if(map0 != null){
-			generateSolids(map0);
-			generateBoundingSolids(map0);
-			generatePortals(map0);
-			generateGoal(map0);
-			generateWindows(map0);
+		if(currentMap != null){
+			generateLevel(currentMap);
 		}
 		
 		//virtualWindow = new RubberBand(0, 0, this);
@@ -98,7 +96,6 @@ public class Gameplay implements GameScreen{
 		
 		//windows.add(virtualWindow);
 		//windows.add(virtualWindow2);
-		player = new Player(16, 480 - 40, this);
 		attachPlayerToWindow();
 		
 		/*p1 = new Portal(0, 0, this);
@@ -124,8 +121,7 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
-		//g.drawString("This is the gameplay screen", 20, 24);
-		map0.draw(g, 0, 0);
+		currentMap.draw(g, 0, 0);
 		
 		player.render(g);
 		renderWindows(g);
@@ -162,6 +158,11 @@ public class Gameplay implements GameScreen{
 				player.x = Gdx.input.getX();
 				player.y = Gdx.input.getY();
 				attachPlayerToWindow();
+			}
+			
+			//Level progress handling
+			if(player.isColliding(goal, player.x, player.y)){
+				nextLevel();
 			}
 			
 			//testing portal system
@@ -234,6 +235,53 @@ public class Gameplay implements GameScreen{
 		for(int i = 0; i < windows.size(); i++){
 			windows.get(i).update(delta);
 		}
+	}
+	
+	public void generateLevel(TiledMap map){
+		generateSolids(map);
+		generateBoundingSolids(map);
+		generatePortals(map);
+		generateGoal(map);
+		generateWindows(map);
+		
+		//TODO place player in correct position based on currentMap
+		if(levelNum == 1){
+			player.x = 16;
+			player.y = 480 - 40;
+		}
+		else if(levelNum == 2){
+			player.x = 16;
+			player.y = 480 - 40;
+		}
+		//...and so on
+	}
+	
+	public void nextLevel(){ //TODO win message if last level reached
+		if(levelNum == 1){
+			levelNum++;
+			currentMap = map1;
+			resetObjects();
+			generateLevel(currentMap);
+		}
+		else if(levelNum == 2){
+			levelNum++;
+			System.out.println("Congratulations! You finished all levels!");
+		}
+		else{
+			
+		}
+	}
+	
+	public void resetObjects(){
+		//Make sure to remove windows that no longer need input handling
+		for(int i = 0; i < windows.size(); i++){
+			multiplexer.removeProcessor(windows.get(i));
+		}
+		
+		solids.clear();
+		windows.clear();
+		boundingSolids.clear();
+		portalSys.portals.clear();
 	}
 	
 	/* 

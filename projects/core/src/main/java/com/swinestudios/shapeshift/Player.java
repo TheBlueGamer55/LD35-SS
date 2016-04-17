@@ -48,7 +48,7 @@ public class Player implements InputProcessor{
 
 	public void render(Graphics g){
 		//Debug - remove later
-		g.drawRect(x, y, hitbox.width, hitbox.height);
+		g.fillRect(x, y, hitbox.width, hitbox.height);
 	}
 
 	public void update(float delta){
