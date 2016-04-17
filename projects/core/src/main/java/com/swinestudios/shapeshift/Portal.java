@@ -1,6 +1,7 @@
 package com.swinestudios.shapeshift;
 import org.mini2Dx.core.geom.Rectangle;
 import org.mini2Dx.core.graphics.Graphics;
+
 import com.badlogic.gdx.graphics.Color;
 
 public class Portal {
@@ -37,7 +38,7 @@ public class Portal {
 		
 		this.level = level;
 		
-		this.active = true;
+		this.active = false;
 		
 		this.hitbox = new Rectangle(xPos, yPos, PORTAL_WIDTH, PORTAL_HEIGHT);
 		
@@ -63,12 +64,13 @@ public class Portal {
 	}
 	
 	public void update(float delta){
+		checkWindowCollision();
+		
 		cyclePoint += delta;
 		cyclePoint %= PERIOD;
 		linkColor.a = (float) Math.pow( Math.sin(cyclePoint*2.0*Math.PI/PERIOD)
 							, 2.0 );
 		
-
 		if( link != null && link.active==false){
 			if(link!=null){
 				link.link=null;
@@ -99,6 +101,10 @@ public class Portal {
 		this.active=true;
 		//Call any other listener etc methods.
 	}
+	
+	public void deactivate(){
+		active = false;
+	}
 
 
 	public Portal getLink() {
@@ -110,7 +116,15 @@ public class Portal {
 		this.link = link;
 	}
 	
-	
-	
+	public void checkWindowCollision(){
+		boolean isVisibleInWindow = false;
+		for(int i = 0; i < level.windows.size(); i++){
+			RubberBand window = level.windows.get(i);
+			if(window.tempBox.contains(this.hitbox)){
+				isVisibleInWindow = true;
+			}
+		}
+		setActive(isVisibleInWindow);
+	}	
 	
 }

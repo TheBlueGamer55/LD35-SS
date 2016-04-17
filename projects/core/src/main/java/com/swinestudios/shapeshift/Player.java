@@ -68,11 +68,9 @@ public class Player implements InputProcessor{
 	}
 
 	public void checkPortalCollision(){
-		//TODO implement
-		//If player has touched portal
-		//If linked portal exists
-		//send player to linked portal
-		//level.attachPlayerToWindow();
+		//for(int i = 0; i < level.portalSys.portals.size(); i++){
+			//Portal portal = level.portalSys.portals.get(i);
+		//}
 	}
 
 	public void playerMovement(){

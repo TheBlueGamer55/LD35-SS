@@ -2,7 +2,6 @@ package com.swinestudios.shapeshift;
 
 import java.util.ArrayList;
 import org.mini2Dx.core.graphics.Graphics;
-import com.badlogic.gdx.graphics.Color;
 
 public class PortalSystem {
 
