@@ -13,14 +13,14 @@ public class Player implements InputProcessor{
 	public float velX, velY;
 	//public float accelX, accelY;
 
-	public final float frictionX = 0.6f;
-	public final float frictionY = 0.6f;
+	//public final float frictionX = 0.6f;
+	//public final float frictionY = 0.6f;
 
 	public final float moveSpeedX = 2.0f;
 	public final float moveSpeedY = 2.0f;
 
-	public final float maxSpeedX = 2.0f;
-	public final float maxSpeedY = 2.0f;
+	//public final float maxSpeedX = 2.0f;
+	//public final float maxSpeedY = 2.0f;
 
 	public boolean isActive;
 
@@ -63,14 +63,28 @@ public class Player implements InputProcessor{
 			velY = 0;
 		}
 
+		checkPortalCollision();
+
 		hitbox.setX(this.x);
 		hitbox.setY(this.y);
 	}
 
 	public void checkPortalCollision(){
-		//for(int i = 0; i < level.portalSys.portals.size(); i++){
-			//Portal portal = level.portalSys.portals.get(i);
-		//}
+		for(int i = 0; i < level.portalSys.portals.size(); i++){
+			Portal portal = level.portalSys.portals.get(i);
+			if(this.isColliding(portal.hitbox, x, y)){
+				if(portal.isActive() && portal.link != null && portal.canTeleport){
+					//Teleport player
+					this.x = portal.getLink().xPos;
+					this.y = portal.getLink().yPos;
+					//Update the new window the player is in
+					level.attachPlayerToWindow();
+					//Start cooldown for both portals
+					portal.canTeleport = false;
+					portal.getLink().canTeleport = false;
+				}
+			}
+		}
 	}
 
 	public void playerMovement(){

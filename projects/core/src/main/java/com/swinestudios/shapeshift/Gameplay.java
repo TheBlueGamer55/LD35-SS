@@ -137,8 +137,9 @@ public class Gameplay implements GameScreen{
 				player.y = Gdx.input.getY();
 				attachPlayerToWindow();
 			}
-			//TODO testing portal system
-			if(Gdx.input.isKeyJustPressed(Keys.Q)){ //Activate a portal
+			
+			//testing portal system
+			/*if(Gdx.input.isKeyJustPressed(Keys.Q)){ //Activate a portal
 				for(int i = 0; i < portalSys.portals.size(); i++){
 					Portal port = portalSys.portals.get(i);
 					if(port.hitbox.contains(Gdx.input.getX(), Gdx.input.getY())){
@@ -153,7 +154,7 @@ public class Gameplay implements GameScreen{
 						port.setActive(false);
 					}
 				}
-			}
+			}*/
 
 			if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 				paused = true;

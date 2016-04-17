@@ -16,6 +16,10 @@ public class Portal {
 	public boolean drawing = false;//Whether or not this member of the pair
 								   //is drawing link lines
 	
+	public float teleportTimer;
+	public final float maxTeleportTimer = 1f; //How long before a portal can teleport again
+	public boolean canTeleport;
+	
 	public Rectangle hitbox;
 	
 	public Color color;
@@ -39,6 +43,7 @@ public class Portal {
 		this.level = level;
 		
 		this.active = false;
+		this.canTeleport = false;
 		
 		this.hitbox = new Rectangle(xPos, yPos, PORTAL_WIDTH, PORTAL_HEIGHT);
 		
@@ -51,6 +56,7 @@ public class Portal {
 		g.drawRect(xPos, yPos, PORTAL_WIDTH, PORTAL_HEIGHT);
 		//TODO debug message
 		g.drawString(active ? "Active" : "Inactive", xPos, yPos);
+		g.drawString(teleportTimer + "", xPos, yPos + 8);
 		
 		if(link!=null){
 			
@@ -75,6 +81,14 @@ public class Portal {
 			if(link!=null){
 				link.link=null;
 				link=null;
+			}
+		}
+		
+		if(!canTeleport){
+			teleportTimer += delta;
+			if(teleportTimer > maxTeleportTimer){
+				canTeleport = true;
+				teleportTimer = 0;
 			}
 		}
 	}

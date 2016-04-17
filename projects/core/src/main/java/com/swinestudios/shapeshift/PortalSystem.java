@@ -28,7 +28,7 @@ public class PortalSystem {
 					waiting = p;
 				}
 				else{
-					System.out.println("LINKED");
+					//System.out.println("LINKED");
 					waiting.setLink(p);
 					p.setLink(waiting);
 					
