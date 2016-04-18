@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="30" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="ss_tileset" tilewidth="16" tileheight="16">
+  <image source="ss_tileset.png" width="96" height="96"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztlUsKwzAMBX2BQBsoDTSb9P6HrLV4EIzlz0LSK8mACNhZjCXLSumGgSPHquw9c3wdXTRqjixu4OzI5gbE8ZU43Tz45NijJRTEbcvxTnyOcEP+Wo7yz6OxbwF6T75yt7X+wzkE7zzDccQNRDiOugHNcTnF7JoltTdgZs2aWg1m1qwo88FWX+3uMlDmoyR6LrX8GOaS5jczl6yp1XB0Lnmg9UdvLnnQ64/o3u75RcPuJ0S/cT2i71iLf6jv1fgBYoEM1A==
+  </data>
+ </layer>
+ <layer name="Layer2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmEsKgDAMBSP+EL1A3dj7n9KIDUrBLHyFdvEGhm5CmV1Kg4gMjbqrszqqS2NOap/6rrM1rIt9/2AfBvsw2IfBPoy8L8i9j7193SW9GbundN+hRvF3tvV5M3ZP6b7WYB8G+zDYh8E+DPZhsA/j3bdK/b+W3E2ed1Xtv5Yvo3oCPB0IEQ==
+  </data>
+ </layer>
+ <objectgroup name="Solids" width="40" height="30">
+  <object x="320" y="240" width="32" height="208"/>
+  <object x="304" y="272" width="64" height="48"/>
+  <object x="304" y="352" width="64" height="48"/>
+  <object x="304" y="432" width="64" height="16"/>
+  <object x="352" y="208" width="256" height="32"/>
+  <object x="384" y="192" width="48" height="16"/>
+  <object x="464" y="192" width="48" height="16"/>
+  <object x="544" y="192" width="48" height="16"/>
+  <object x="384" y="240" width="48" height="16"/>
+  <object x="464" y="240" width="48" height="16"/>
+  <object x="544" y="240" width="48" height="16"/>
+  <object x="288" y="32" width="144" height="16"/>
+  <object x="304" y="48" width="112" height="16"/>
+  <object x="320" y="64" width="80" height="16"/>
+  <object x="336" y="80" width="48" height="16"/>
+  <object x="224" y="144" width="48" height="16"/>
+  <object x="208" y="160" width="80" height="16"/>
+  <object x="192" y="176" width="112" height="16"/>
+  <object x="176" y="192" width="144"/>
+  <object x="80" y="112" width="32" height="96"/>
+  <object x="48" y="144" width="96" height="32"/>
+  <object x="64" y="128" width="64" height="64"/>
+  <object x="416" y="288" width="64" height="64"/>
+  <object x="432" y="272" width="32" height="96"/>
+  <object x="400" y="304" width="96" height="32"/>
+ </objectgroup>
+ <objectgroup name="BoundingSolids" width="40" height="30">
+  <object x="0" y="0" width="640" height="32"/>
+  <object x="0" y="32" width="32" height="448"/>
+  <object x="608" y="32" width="32" height="416"/>
+  <object x="32" y="448" width="608" height="32"/>
+  <object x="32" y="208" width="320" height="32"/>
+ </objectgroup>
+ <objectgroup name="Portals" width="40" height="30">
+  <object x="192" y="384" width="16" height="16"/>
+  <object x="512" y="384" width="16" height="16"/>
+  <object x="512" y="80" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Goal" width="40" height="30">
+  <object x="64" y="48" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="Windows" width="40" height="30">
+  <object x="48" y="336" width="96" height="96"/>
+ </objectgroup>
+</map>

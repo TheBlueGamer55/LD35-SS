@@ -38,7 +38,7 @@ public class Gameplay implements GameScreen{
 	//public RubberBand virtualWindow2;
 	//public Portal p1, p2, p3, p4;
 
-	private TiledMap map0, map1, map2, map3;
+	private TiledMap map0, map1, map2, map3, map4, map5, map6;
 	private TiledMap currentMap;
 	public static int levelNum = 1; //Keep track of current level
 
@@ -61,6 +61,9 @@ public class Gameplay implements GameScreen{
 			map1 = new TiledMap(Gdx.files.internal("map01.tmx"));
 			map2 = new TiledMap(Gdx.files.internal("map02.tmx"));
 			map3 = new TiledMap(Gdx.files.internal("map03.tmx"));
+			map4 = new TiledMap(Gdx.files.internal("map04.tmx"));
+			map5 = new TiledMap(Gdx.files.internal("map05.tmx"));
+			map6 = new TiledMap(Gdx.files.internal("map06.tmx"));
 		} catch (TiledException e) {
 			e.printStackTrace();
 		}
@@ -283,6 +286,18 @@ public class Gameplay implements GameScreen{
 			player.x = 5 * RubberBand.TILE_SIZE;
 			player.y = 23 * RubberBand.TILE_SIZE;
 		}
+		else if(levelNum == 5){
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
+		}
+		else if(levelNum == 6){
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
+		}
+		else if(levelNum == 7){
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
+		}
 		//...and so on
 		attachPlayerToWindow();
 	}
@@ -307,6 +322,24 @@ public class Gameplay implements GameScreen{
 			generateLevel(currentMap);
 		}
 		else if(levelNum == 4){
+			levelNum++;
+			currentMap = map4;
+			resetObjects();
+			generateLevel(currentMap);
+		}
+		else if(levelNum == 5){
+			levelNum++;
+			currentMap = map5;
+			resetObjects();
+			generateLevel(currentMap);
+		}
+		else if(levelNum == 6){
+			levelNum++;
+			currentMap = map6;
+			resetObjects();
+			generateLevel(currentMap);
+		}
+		else if(levelNum == 7){
 			levelNum++;
 			System.out.println("Congratulations! You finished all levels!");
 		}
