@@ -38,7 +38,8 @@ public class Gameplay implements GameScreen{
 	//public RubberBand virtualWindow2;
 	//public Portal p1, p2, p3, p4;
 
-	private TiledMap map0, map1, currentMap;
+	private TiledMap map0, map1, map2, map3;
+	private TiledMap currentMap;
 	public static int levelNum = 1; //Keep track of current level
 
 	private InputMultiplexer multiplexer;
@@ -57,7 +58,9 @@ public class Gameplay implements GameScreen{
 
 		try{
 			map0 = new TiledMap(Gdx.files.internal("map00.tmx"));
-			map1 = new TiledMap(Gdx.files.internal("test_map1.tmx"));
+			map1 = new TiledMap(Gdx.files.internal("map01.tmx"));
+			map2 = new TiledMap(Gdx.files.internal("map02.tmx"));
+			map3 = new TiledMap(Gdx.files.internal("map03.tmx"));
 		} catch (TiledException e) {
 			e.printStackTrace();
 		}
@@ -121,9 +124,8 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
-		currentMap.draw(g, 0, 0); //TODO comment out?
+		//currentMap.draw(g, 0, 0); //TODO comment out?
 
-		//TODO testing region-based map drawing
 		drawMapRegions(g);
 
 		player.render(g);
@@ -229,6 +231,9 @@ public class Gameplay implements GameScreen{
 	}
 	
 	public void drawMapRegions(Graphics g){
+		if(currentMap.getTileLayer("Layer2") != null){
+			currentMap.draw(g, 0, 0, currentMap.getTileLayer("Layer2").getIndex());
+		}
 		int gridSize = RubberBand.TILE_SIZE;
 		for(int i = 0; i < windows.size(); i++){
 			RubberBand window = windows.get(i);
@@ -263,14 +268,23 @@ public class Gameplay implements GameScreen{
 
 		//TODO place player in correct position based on currentMap
 		if(levelNum == 1){
-			player.x = 16;
-			player.y = 480 - 40;
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
 		}
 		else if(levelNum == 2){
-			player.x = 16;
-			player.y = 480 - 40;
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
+		}
+		else if(levelNum == 3){
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
+		}
+		else if(levelNum == 4){
+			player.x = 5 * RubberBand.TILE_SIZE;
+			player.y = 23 * RubberBand.TILE_SIZE;
 		}
 		//...and so on
+		attachPlayerToWindow();
 	}
 
 	public void nextLevel(){ //TODO win message if last level reached
@@ -282,10 +296,19 @@ public class Gameplay implements GameScreen{
 		}
 		else if(levelNum == 2){
 			levelNum++;
-			System.out.println("Congratulations! You finished all levels!");
+			currentMap = map2;
+			resetObjects();
+			generateLevel(currentMap);
 		}
-		else{
-
+		else if(levelNum == 3){
+			levelNum++;
+			currentMap = map3;
+			resetObjects();
+			generateLevel(currentMap);
+		}
+		else if(levelNum == 4){
+			levelNum++;
+			System.out.println("Congratulations! You finished all levels!");
 		}
 	}
 

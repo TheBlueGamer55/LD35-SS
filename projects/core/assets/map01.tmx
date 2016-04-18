@@ -5,20 +5,27 @@
  </tileset>
  <layer name="Tile Layer 1" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlkEKgDAMBPMBURBBsBf7/0eaHAJF0iIiJLU7sOQ6lHRbItADByd5SzRYObO3RAP4PUP2bDGyUwy/k7NVkh29APga6y5GegOks6ZbInSEYnXFHzuihz3R/4vOSHsifrIruZjR/HB+7xmlBwAAYCQu/3QG0w==
+   eJzt1jEKgDAMheFeQBTESRe9/yFtIMWYIYOFtuD/waPQLI8uaUoAvthzDnP62aLxs1bOnMuc1pqe3nPjXkX0ftKv9O7VL3o/uds0fgYAeBthJ0Zk50yaXjsnQr869Kszej/+ZMC/3I8yBZc=
+  </data>
+ </layer>
+ <layer name="Layer2" width="40" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmM0KgCAQhBf6I+oF7JLv/5StZFCx2pZiHmZg6DLMfHVRMkTUVuqFPbA79liZe3bj+dyzlAzt3+VJB1dpPu0e+OK72hz45F1tDnzyrjYHPnlXmwOfvKvNge+qlW0Vua987v4Ruqvl1Fc+9/6hu1oNfLGunAJfnk7wpXWCL60TfGmdObq1Z+obnfkm+v9fy92z55PO01ps2RtqpwiJ
   </data>
  </layer>
  <objectgroup name="Solids" width="40" height="30">
-  <object x="112" y="192" width="96" height="48"/>
-  <object x="320" y="96" width="128" height="32"/>
-  <object x="416" y="32" width="32" height="64"/>
-  <object x="400" y="240" width="96" height="96"/>
+  <object x="112" y="80" width="64" height="64"/>
+  <object x="224" y="80" width="64" height="64"/>
+  <object x="432" y="256" width="64" height="128"/>
  </objectgroup>
  <objectgroup name="BoundingSolids" width="40" height="30">
   <object x="0" y="0" width="640" height="32"/>
   <object x="0" y="32" width="32" height="448"/>
-  <object x="32" y="448" width="608" height="32"/>
   <object x="608" y="32" width="32" height="416"/>
+  <object x="32" y="448" width="608" height="32"/>
+  <object x="192" y="256" width="112" height="32"/>
+  <object x="272" y="288" width="32" height="160"/>
+  <object x="448" y="32" width="32" height="224"/>
  </objectgroup>
  <objectgroup name="Portals" width="40" height="30"/>
  <objectgroup name="Goal" width="40" height="30">
@@ -27,9 +34,4 @@
  <objectgroup name="Windows" width="40" height="30">
   <object x="48" y="336" width="96" height="96"/>
  </objectgroup>
- <layer name="Layer2" width="40" height="30">
-  <data encoding="base64" compression="zlib">
-   eJzt2DsKgEAQBNEBf4heQBO9/ynthTURTOxgR6iCZtIXzxYRfdLt2qQN2pxso9ZVX7nZul34voXPC58XPi98Xvi88Hnh88Lnhc8Lnxc+rz/5lmj/a3lurb4j2v9a3nZqF/WKBnM=
-  </data>
- </layer>
 </map>
