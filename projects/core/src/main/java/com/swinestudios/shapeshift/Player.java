@@ -53,7 +53,6 @@ public class Player implements InputProcessor{
 	}
 
 	public void render(Graphics g){
-		//Debug - remove later
 		trail.render(g);
 		g.setColor(Color.GREEN);
 		g.fillRect(x, y, hitbox.width, hitbox.height);

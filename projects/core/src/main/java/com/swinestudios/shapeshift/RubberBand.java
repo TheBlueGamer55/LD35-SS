@@ -3,8 +3,12 @@ package com.swinestudios.shapeshift;
 import org.mini2Dx.core.geom.Circle;
 import org.mini2Dx.core.geom.Rectangle;
 import org.mini2Dx.core.graphics.Graphics;
+import org.mini2Dx.core.graphics.Sprite;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 
 public class RubberBand implements InputProcessor{
 	
@@ -31,6 +35,9 @@ public class RubberBand implements InputProcessor{
 	public Rectangle hitbox, tempBox;
 	public Block topBorder, bottomBorder, leftBorder, rightBorder;
 	public Circle topLeftCorner, topRightCorner, bottomLeftCorner, bottomRightCorner, currentCorner;
+	
+	public Sprite cornerSprite;
+	public static Color borderColor = new Color(178/255f, 0/255f, 255/255f, 1);
 
 	public Gameplay level;
 	public String type;
@@ -52,6 +59,9 @@ public class RubberBand implements InputProcessor{
 		bottomLeftCorner = new Circle(x, y + INITIAL_HEIGHT, 8);
 		bottomRightCorner = new Circle(x + INITIAL_WIDTH, y + INITIAL_HEIGHT, 8);
 		currentCorner = null;
+		
+		cornerSprite = new Sprite(new Texture(Gdx.files.internal("window_corner.png")));
+		cornerSprite.scale(1);
 
 		hitbox = new Rectangle(x, y, INITIAL_WIDTH, INITIAL_HEIGHT);
 		tempBox = new Rectangle(x, y, INITIAL_WIDTH, INITIAL_HEIGHT);
@@ -73,9 +83,9 @@ public class RubberBand implements InputProcessor{
 	public void render(Graphics g){
 		if(isActive){
 			//g.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
-			//TODO debug border drawing, remove later
 			drawBorders(g);
-			g.drawRect(tempBox.x, tempBox.y, tempBox.width, tempBox.height);
+			//g.setColor(borderColor);
+			//g.drawRect(tempBox.x, tempBox.y, tempBox.width, tempBox.height);
 			drawCorners(g);
 		}
 	}
@@ -106,10 +116,11 @@ public class RubberBand implements InputProcessor{
 	}
 	
 	private void drawBorders(Graphics g){
-		g.drawRect(topBorder.x, topBorder.y, topBorder.width, topBorder.height);
-		g.drawRect(bottomBorder.x, bottomBorder.y, bottomBorder.width, bottomBorder.height);
-		g.drawRect(leftBorder.x, leftBorder.y, leftBorder.width, leftBorder.height);
-		g.drawRect(rightBorder.x, rightBorder.y, rightBorder.width, rightBorder.height);
+		g.setColor(borderColor);
+		g.drawRect(tempBox.x, tempBox.y, tempBox.width, 2); //Top
+		g.drawRect(bottomLeftCorner.getX(), bottomLeftCorner.getY(), tempBox.width, 2); //Bottom
+		g.drawRect(tempBox.x, tempBox.y, 2, tempBox.height); //Left
+		g.drawRect(topRightCorner.getX(), tempBox.y, 2, tempBox.height); //Right
 	}
 	
 	private void realignBorders(){
@@ -123,10 +134,18 @@ public class RubberBand implements InputProcessor{
 
 	//TODO switch to sprites for corners later
 	public void drawCorners(Graphics g){
-		g.drawCircle(topLeftCorner.getX(), topLeftCorner.getY(), (int) topLeftCorner.getRadius());
+		/*g.drawCircle(topLeftCorner.getX(), topLeftCorner.getY(), (int) topLeftCorner.getRadius());
 		g.drawCircle(topRightCorner.getX(), topRightCorner.getY(), (int) topRightCorner.getRadius());
 		g.drawCircle(bottomLeftCorner.getX(), bottomLeftCorner.getY(), (int) bottomLeftCorner.getRadius());
 		g.drawCircle(bottomRightCorner.getX(), bottomRightCorner.getY(), (int) bottomRightCorner.getRadius());
+		*/
+		
+		float w = cornerSprite.getWidth();
+		float h = cornerSprite.getHeight();
+		g.drawSprite(cornerSprite, topLeftCorner.getX() - w/2, topLeftCorner.getY() - h/2);
+		g.drawSprite(cornerSprite, topRightCorner.getX() - w/2, topRightCorner.getY() - h/2);
+		g.drawSprite(cornerSprite, bottomLeftCorner.getX() - w/2, bottomLeftCorner.getY() - h/2);
+		g.drawSprite(cornerSprite, bottomRightCorner.getX() - w/2, bottomRightCorner.getY() - h/2);
 	}
 
 	private void realignCorners(){
