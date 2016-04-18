@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 
 public class Player implements InputProcessor{ 
 
@@ -28,6 +29,7 @@ public class Player implements InputProcessor{
 	public Rectangle hitbox;
 	public Gameplay level;
 	public String type;
+	public TrailParticles trail;
 	
 	public static Sound teleportSound = Gdx.audio.newSound(Gdx.files.internal("teleport.wav"));
 
@@ -45,16 +47,20 @@ public class Player implements InputProcessor{
 		isActive = false;
 		this.level = level;
 		type = "Player";
+		trail = new TrailParticles(new Color(Color.GREEN), level);
 		//TODO adjust hitbox based on sprite
 		hitbox = new Rectangle(x, y, 20, 20); 
 	}
 
 	public void render(Graphics g){
 		//Debug - remove later
+		trail.render(g);
+		g.setColor(Color.GREEN);
 		g.fillRect(x, y, hitbox.width, hitbox.height);
 	}
 
 	public void update(float delta){
+		trail.update(delta);
 		playerMovement();
 
 		//Stop x-movement if not pressing LEFT nor RIGHT
