@@ -56,7 +56,7 @@ public class Gameplay implements GameScreen{
 		multiplexer = new InputMultiplexer();
 
 		try{
-			map0 = new TiledMap(Gdx.files.internal("test_map0.tmx"));
+			map0 = new TiledMap(Gdx.files.internal("map00.tmx"));
 			map1 = new TiledMap(Gdx.files.internal("test_map1.tmx"));
 		} catch (TiledException e) {
 			e.printStackTrace();
@@ -121,7 +121,7 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
-		//currentMap.draw(g, 0, 0); TODO uncomment later
+		currentMap.draw(g, 0, 0); //TODO comment out?
 
 		//TODO testing region-based map drawing
 		drawMapRegions(g);
@@ -132,12 +132,12 @@ public class Gameplay implements GameScreen{
 		goal.render(g);
 
 		//TODO remove solids rendering later
-		for(int i = 0; i < solids.size(); i++){
+		/*for(int i = 0; i < solids.size(); i++){
 			solids.get(i).render(g);
 		}
 		for(int i = 0; i < boundingSolids.size(); i++){
 			boundingSolids.get(i).render(g);
-		}
+		}*/
 
 		if(gameOver){
 			g.setColor(Color.RED);
