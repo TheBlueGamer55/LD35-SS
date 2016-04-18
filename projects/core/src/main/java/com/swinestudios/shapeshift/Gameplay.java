@@ -25,6 +25,7 @@ public class Gameplay implements GameScreen{
 
 	public boolean paused = false;
 	public boolean gameOver = false;
+	public boolean gameWin = false;
 
 	public ArrayList<Block> solids;
 	public ArrayList<BoundingBlock> boundingSolids;
@@ -78,8 +79,8 @@ public class Gameplay implements GameScreen{
 	public void postTransitionOut(Transition t){
 		gameOver = false;
 		paused = false;
+		gameWin = false;
 
-		//TODO adjust resetting as necessary
 		resetObjects();
 		levelNum = 1;
 	}
@@ -88,6 +89,7 @@ public class Gameplay implements GameScreen{
 	public void preTransitionIn(Transition t){
 		gameOver = false;
 		paused = false;
+		gameWin = false;
 		currentMap = map0; //First level
 		portalSys = new PortalSystem(this);
 		goal = new GoalBlock(-20, -20, this);
@@ -136,7 +138,7 @@ public class Gameplay implements GameScreen{
 		portalSys.render(g);
 		goal.render(g);
 
-		//TODO remove solids rendering later
+		//Solids rendering
 		/*for(int i = 0; i < solids.size(); i++){
 			solids.get(i).render(g);
 		}
@@ -152,11 +154,15 @@ public class Gameplay implements GameScreen{
 			g.setColor(Color.RED);
 			g.drawString("Are you sure you want to quit? Y or N", 220, 240);
 		}
+		if(gameWin){
+			g.setColor(Color.WHITE);
+			g.drawString("You completed all the levels! Press Escape to go back to the main menu", 100, 240);
+		}
 	}
 
 	@Override
 	public void update(GameContainer gc, ScreenManager<? extends GameScreen> sm, float delta){
-		if(!paused && !gameOver){
+		if(!paused && !gameOver && !gameWin){
 			player.update(delta);
 			updateWindows(delta);
 			portalSys.update(delta);
@@ -196,7 +202,7 @@ public class Gameplay implements GameScreen{
 			}
 		}
 		else{
-			if(gameOver){
+			if(gameOver || gameWin){
 				if(Gdx.input.isKeyJustPressed(Keys.ESCAPE)){
 					sm.enterGameScreen(MainMenu.ID, new FadeOutTransition(), new FadeInTransition());
 				}
@@ -269,7 +275,7 @@ public class Gameplay implements GameScreen{
 		generateGoal(map);
 		generateWindows(map);
 
-		//TODO place player in correct position based on currentMap
+		//Place player in correct position based on currentMap
 		if(levelNum == 1){
 			player.x = 5 * RubberBand.TILE_SIZE;
 			player.y = 23 * RubberBand.TILE_SIZE;
@@ -302,7 +308,7 @@ public class Gameplay implements GameScreen{
 		attachPlayerToWindow();
 	}
 
-	public void nextLevel(){ //TODO win message if last level reached
+	public void nextLevel(){ 
 		if(levelNum == 1){
 			levelNum++;
 			currentMap = map1;
@@ -341,8 +347,9 @@ public class Gameplay implements GameScreen{
 		}
 		else if(levelNum == 7){
 			levelNum++;
-			System.out.println("Congratulations! You finished all levels!");
+			gameWin = true;
 		}
+		//TODO win message if last level reached
 	}
 
 	public void resetObjects(){
