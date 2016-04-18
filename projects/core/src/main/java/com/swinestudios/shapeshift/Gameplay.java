@@ -17,6 +17,7 @@ import org.mini2Dx.tiled.exception.TiledException;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 
 public class Gameplay implements GameScreen{
@@ -42,6 +43,8 @@ public class Gameplay implements GameScreen{
 	private TiledMap map0, map1, map2, map3, map4, map5, map6;
 	private TiledMap currentMap;
 	public static int levelNum = 1; //Keep track of current level
+	
+	public static Sound nextLevelSound = Gdx.audio.newSound(Gdx.files.internal("correct.wav"));
 
 	private InputMultiplexer multiplexer;
 
@@ -129,7 +132,7 @@ public class Gameplay implements GameScreen{
 
 	@Override
 	public void render(GameContainer gc, Graphics g){
-		//currentMap.draw(g, 0, 0); //TODO comment out?
+		//currentMap.draw(g, 0, 0); //Uncomment for debug
 
 		drawMapRegions(g);
 
@@ -309,6 +312,7 @@ public class Gameplay implements GameScreen{
 	}
 
 	public void nextLevel(){ 
+		nextLevelSound.play(1, 0.92f, 0);
 		if(levelNum == 1){
 			levelNum++;
 			currentMap = map1;

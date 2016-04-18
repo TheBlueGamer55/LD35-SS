@@ -6,6 +6,7 @@ import org.mini2Dx.core.graphics.Graphics;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 
 public class Player implements InputProcessor{ 
 
@@ -27,6 +28,8 @@ public class Player implements InputProcessor{
 	public Rectangle hitbox;
 	public Gameplay level;
 	public String type;
+	
+	public static Sound teleportSound = Gdx.audio.newSound(Gdx.files.internal("teleport.wav"));
 
 	//Controls/key bindings
 	public final int LEFT = Keys.A;
@@ -77,6 +80,7 @@ public class Player implements InputProcessor{
 					//Teleport player
 					this.x = portal.getLink().xPos;
 					this.y = portal.getLink().yPos;
+					teleportSound.play();
 					//Update the new window the player is in
 					level.attachPlayerToWindow();
 					//Start cooldown for both portals

@@ -5,6 +5,7 @@ import org.mini2Dx.core.graphics.Graphics;
 import org.mini2Dx.core.graphics.Sprite;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -40,6 +41,10 @@ public class Portal {
 	public float animationSpeed = 0.1f; //How many seconds a frame lasts
 
 	public Gameplay level;
+	
+	public static Sound linkSound = Gdx.audio.newSound(Gdx.files.internal("portal01.wav"));
+	public static Sound activateSound = Gdx.audio.newSound(Gdx.files.internal("portal06.wav"));
+	public static Sound deactivateSound = Gdx.audio.newSound(Gdx.files.internal("deactivate.wav"));
 
 	public Portal( float xPos, float yPos, Gameplay level){
 
@@ -154,11 +159,13 @@ public class Portal {
 
 	public void activate(){
 		this.active=true;
+		activateSound.play(0.3f);
 		//Call any other listener etc methods.
 	}
 
 	public void deactivate(){
 		active = false;
+		deactivateSound.play();
 	}
 
 
@@ -169,6 +176,7 @@ public class Portal {
 
 	public void setLink(Portal link) {
 		this.link = link;
+		linkSound.play(0.25f);
 	}
 
 	public void checkWindowCollision(){
@@ -179,7 +187,12 @@ public class Portal {
 				isVisibleInWindow = true;
 			}
 		}
-		setActive(isVisibleInWindow);
+		if(!active && isVisibleInWindow){
+			activate();
+		}
+		if(active && !isVisibleInWindow){
+			deactivate();
+		}
 	}	
 
 }
