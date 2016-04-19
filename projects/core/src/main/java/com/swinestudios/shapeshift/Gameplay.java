@@ -137,9 +137,9 @@ public class Gameplay implements GameScreen{
 		drawMapRegions(g);
 
 		player.render(g);
+		goal.render(g);
 		renderWindows(g);
 		portalSys.render(g);
-		goal.render(g);
 
 		//Solids rendering
 		/*for(int i = 0; i < solids.size(); i++){
@@ -170,12 +170,12 @@ public class Gameplay implements GameScreen{
 			updateWindows(delta);
 			portalSys.update(delta);
 
-			//TODO Test teleportation, remove later
-			if(Gdx.input.isKeyJustPressed(Keys.T)){
+			//Test teleportation
+			/*if(Gdx.input.isKeyJustPressed(Keys.T)){
 				player.x = Gdx.input.getX();
 				player.y = Gdx.input.getY();
 				attachPlayerToWindow();
-			}
+			}*/
 
 			//Level progress handling
 			if(player.isColliding(goal, player.x, player.y)){
@@ -353,7 +353,6 @@ public class Gameplay implements GameScreen{
 			levelNum++;
 			gameWin = true;
 		}
-		//TODO win message if last level reached
 	}
 
 	public void resetObjects(){

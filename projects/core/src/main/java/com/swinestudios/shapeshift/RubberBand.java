@@ -12,10 +12,9 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class RubberBand implements InputProcessor{
 	
-	public static int COUNT = 0;
-	public int ID;
+	//public static int COUNT = 0;
+	//public int ID;
 
-	//TODO adjust later
 	public final int INITIAL_WIDTH = 96;
 	public final int INITIAL_HEIGHT = 96;
 	public final int MIN_WIDTH = 48;
@@ -53,7 +52,6 @@ public class RubberBand implements InputProcessor{
 		this.level = level;
 		type = "RubberBand";
 
-		//TODO replace with icons/sprites
 		topLeftCorner = new Circle(x, y, 8);
 		topRightCorner = new Circle(x + INITIAL_WIDTH, y, 8);
 		bottomLeftCorner = new Circle(x, y + INITIAL_HEIGHT, 8);
@@ -74,10 +72,6 @@ public class RubberBand implements InputProcessor{
 		level.solids.add(bottomBorder);
 		level.solids.add(leftBorder);
 		level.solids.add(rightBorder);
-		
-		//TODO remove later
-		COUNT++;
-		ID = COUNT;
 	}
 
 	public void render(Graphics g){
@@ -132,7 +126,6 @@ public class RubberBand implements InputProcessor{
 		rightBorder.set(x + tempBox.width, y, BORDER_OFFSET, tempBox.height);
 	}
 
-	//TODO switch to sprites for corners later
 	public void drawCorners(Graphics g){
 		/*g.drawCircle(topLeftCorner.getX(), topLeftCorner.getY(), (int) topLeftCorner.getRadius());
 		g.drawCircle(topRightCorner.getX(), topRightCorner.getY(), (int) topRightCorner.getRadius());
@@ -214,7 +207,9 @@ public class RubberBand implements InputProcessor{
 
 	@Override
 	public boolean touchDragged(int mouseX, int mouseY, int pointer){
-		//TODO bug - resizing can occur even if game is paused
+		if(level.paused || level.gameOver || level.gameWin){
+			return false;
+		}
 		mouseX = (mouseX / TILE_SIZE) * TILE_SIZE;
 		mouseY = (mouseY / TILE_SIZE) * TILE_SIZE;
 		Rectangle prevBox = new Rectangle(tempBox.x, tempBox.y, tempBox.width, tempBox.height);

@@ -48,7 +48,6 @@ public class Player implements InputProcessor{
 		this.level = level;
 		type = "Player";
 		trail = new TrailParticles(new Color(Color.GREEN), level);
-		//TODO adjust hitbox based on sprite
 		hitbox = new Rectangle(x, y, 20, 20); 
 	}
 
@@ -85,7 +84,7 @@ public class Player implements InputProcessor{
 					//Teleport player
 					this.x = portal.getLink().xPos;
 					this.y = portal.getLink().yPos;
-					teleportSound.play();
+					teleportSound.play(0.8f);
 					//Update the new window the player is in
 					level.attachPlayerToWindow();
 					//Start cooldown for both portals
