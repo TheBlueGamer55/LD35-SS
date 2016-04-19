@@ -19,6 +19,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class Gameplay implements GameScreen{
 
@@ -45,6 +46,8 @@ public class Gameplay implements GameScreen{
 	public static int levelNum = 1; //Keep track of current level
 	
 	public static Sound nextLevelSound = Gdx.audio.newSound(Gdx.files.internal("correct.wav"));
+	
+	public static Sound theme;
 
 	private InputMultiplexer multiplexer;
 
@@ -71,11 +74,19 @@ public class Gameplay implements GameScreen{
 		} catch (TiledException e) {
 			e.printStackTrace();
 		}
+		
+		try{
+			theme = Gdx.audio.newSound(Gdx.files.internal("game_theme.ogg"));
+		}catch(GdxRuntimeException e){ //File does not exist
+			theme = null;
+		}
 	}
 
 	@Override
 	public void postTransitionIn(Transition t){
-
+		if(theme != null){
+			theme.loop();
+		}
 	}
 
 	@Override
@@ -86,6 +97,10 @@ public class Gameplay implements GameScreen{
 
 		resetObjects();
 		levelNum = 1;
+		
+		if(theme != null){
+			theme.stop();
+		}
 	}
 
 	@Override

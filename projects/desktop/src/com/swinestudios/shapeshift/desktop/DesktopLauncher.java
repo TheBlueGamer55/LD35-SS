@@ -7,7 +7,7 @@ import com.badlogic.gdx.backends.lwjgl.DesktopMini2DxGame;
 import com.swinestudios.shapeshift.ShapeShift;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main(String[] arg){
 		DesktopMini2DxConfig config = new DesktopMini2DxConfig(ShapeShift.GAME_IDENTIFIER);
 		config.vSyncEnabled = true;
 		config.width = 640;
